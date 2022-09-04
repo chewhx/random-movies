@@ -3,10 +3,30 @@
 	"version": "1.0.1",
 	"description": "Use random movie names or descriptions as placeholders.",
 	"main": "dist/index.js",
-	"typings": "dist/index.d.ts",
+	"exports": {
+		"require": "./dist/index.js",
+		"import": "./dist/index.mjs",
+		"types": "./dist/index.d.ts"
+	},
 	"files": [
 		"dist"
 	],
+	"tsup": {
+		"exclude": [
+			"data"
+		],
+		"format": [
+			"esm",
+			"cjs"
+		],
+		"treeshake": true,
+		"entry": [
+			"src/index.ts"
+		],
+		"splitting": true,
+		"sourcemap": false,
+		"clean": true
+	},
 	"scripts": {
 		"build": "tsup",
 		"watch": "tsup --watch",

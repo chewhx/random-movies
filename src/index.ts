@@ -1,35 +1,27 @@
-import pickOne, { TMovie } from './lib/pickOne';
-import _data from '../data/results.json';
-import pickSome from './lib/pickSome';
+import _data from '../data/imdb.json';
+import { pickOne } from './utils/pickOne';
+import { pickSome } from './utils/pickSome';
 
-type TOptions = {
-	info?: boolean;
-	movies?: number;
-};
-
-function optionsIsObject(options: TOptions): options is TOptions {
-	return 'info' in options || 'movies' in options;
+export function randomTitle() {
+	return pickOne(_data)['Series_Title'];
 }
 
-function movies(): string;
-function movies(options?: number): string[];
-function movies(options?: TOptions): TMovie[];
-function movies(options?: TOptions | number): string | string[] | TMovie[] {
-	if (!options) {
-		return pickOne(_data).title;
-	}
-	if (typeof options === 'number') {
-		return pickSome(_data, options).map((e) => e.title);
-	}
-	if (optionsIsObject(options)) {
-		const res = pickSome(_data, options.movies || 1);
-		if (!options.info) {
-			return res.map((e) => e.title);
-		}
-		return res;
-	}
-	return pickOne(_data).title;
+export function randomTitles(n: number) {
+	return pickSome(_data, n).map((e) => e['Series_Title']);
 }
-console.log(movies());
-console.log(movies(5));
-console.log(movies({ info: true, movies: 2 }));
+
+export function randomMovie() {
+	return pickOne(_data);
+}
+
+export function randomMovies(n: number) {
+	return pickSome(_data, n);
+}
+
+export function randomOverview() {
+	return pickOne(_data)['Overview'];
+}
+
+export function randomOverviews(n: number) {
+	return pickSome(_data, n).map((e) => e['Overview']);
+}
